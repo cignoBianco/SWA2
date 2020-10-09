@@ -1,0 +1,31 @@
+<!Doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>JSON parser</title>
+    <meta name="description" content="JSON parser парсер">
+    <meta name="author" content="AnastasiaS">
+    <link rel="icon" href="css/images/favicon.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="css/style.css?v=1.0">
+ </head>
+<body>
+    <header></header>
+    <body>
+        <div>
+            <p>
+                У вас есть 5 файлов c json форматом. Ваша задача сделать динамический парсер, который принимает на вход json, а на выходе делает форму в зависимости от тех наборов полей формы, который там храниться. Оформление формы тоже идёт в учёт (не забываем про мобильную версию).
+            </p>
+        </div>
+        <div id="in">
+            <form id="jsonForm">
+                <label for="jsonInput">Загрузить файл</label>
+                <input type="file" id="jsonInput" name="jsonInput" type="file" accept="*.json" />
+                <button type="submit">Сгенерировать форму</button>
+            </form>
+        </div>
+        <div id="out"></div>
+    </body>
+    <footer></footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
