@@ -40,10 +40,49 @@ function processForm(event) {
         
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
+                    let labelName = field['label'];
                     field = field['input'];
-                    let input;
+                    let input, label;
                     switch (field['type']) {
                         case 'file':
+                            input = document.createElement('input');
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
+
+                            break;
+                        case 'date':
+                            input = document.createElement('input');
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
+
+                            break;
+                        case 'checkbox':
+                            linput = document.createElement('input');
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
+                            /*
+                            <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
+                            <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
+                            <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
+                            */
                             break; 
                         case 'color': 
                             let colors = document.createElement('datalist');
@@ -58,28 +97,46 @@ function processForm(event) {
                             input = document.createElement('input');
                             input.type = field['type'];
                             input.list = colors.id;
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
                             break;
                         case 'textarea': 
                             input = document.createElement('textarea'); 
+                            
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
+
                             break;
                         case 'text':
                         case 'email':
-                        case 'passowrd':
+                        case 'password':
+                        case 'number':
                             input = document.createElement('input');
                             input.type = field['type'];
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+                            label = document.createElement('label');
+                            label.innerHTML = labelName;
+                            label.for = input.id;
+                            form.appendChild(label);
+
                             input.placeholder = field['placeholder'] || '';
                             break;
                         default:
-                          console.log(`Sorry, unvalid type.`);
+                          console.log(`Sorry, unvalid type.${field['type']}`);
                     }
 
-                    input.id = field['label'] + '_' + contents['name'];
-                    input.required = field['required'];
-
-                    let label = document.createElement('label');
-                    label.for = input.id;
-                    form.appendChild(label);
-            
                     form.appendChild(input);
                     form.appendChild(document.createElement('hr'));
                 });
