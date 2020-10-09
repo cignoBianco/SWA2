@@ -81,7 +81,7 @@ function processForm(event) {
                     form.appendChild(label);
             
                     form.appendChild(input);
-                    form.appendChild(document.createElement('<hr/>'));
+                    form.appendChild(document.createElement('hr'));
                 });
 
                 let button = document.createElement('button');
