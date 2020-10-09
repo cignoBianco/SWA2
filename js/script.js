@@ -23,6 +23,40 @@ function validateInput(event) {
     }
 }
 
+const allEqual = array => array.every( item => item.value === array[0].value )
+
+function validateForm(event) {
+    event.preventDefault();
+    let form = event.target;
+    let validated = false;
+
+    let passwords = [...form.querySelectorAll(`input[type="password"]`)];
+    if (passwords.length > 1) {
+        if (allEqual(passwords)) {
+            passwords[0].classList.remove('passwords');
+            validated = true;
+        } else {
+            passwords[0].classList.add('passwords');
+            validated = +validated * 0;
+        }
+    }
+
+    let emails = [...form.querySelectorAll(`input[type="email"]`)];
+    if (emails.length < 1) {
+        if (allEqual(emails)) {
+            emails[0].classList.remove('emails');
+            validated = +validated * 1;
+        } else {
+            passwords[0].classList.add('emails');
+            validated = +validated * 0;
+        } 
+    }
+
+    if (validated) {
+        alert('Success!');
+    }
+}
+
 function processForm(event) {
     event.preventDefault();
     let files = form.querySelector('input').files; 
@@ -48,14 +82,16 @@ function processForm(event) {
                         case 'file':
                             input = document.createElement('input');
                             input.type = 'file';
+                            input.multiple = field['multiple'];
+                            input.accept = field['fieldtype'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
 
@@ -65,26 +101,28 @@ function processForm(event) {
                             input.type = 'file';
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
 
                             break;
                         case 'checkbox':
                             input = document.createElement('input');
+                            input.type = field['type'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
+                            input.checked = field['checked'] || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
                             /*
@@ -108,12 +146,12 @@ function processForm(event) {
                             input.list = colors.id;
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
 
@@ -122,12 +160,12 @@ function processForm(event) {
                             input = document.createElement('textarea'); 
                             
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
                             
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
 
@@ -139,8 +177,8 @@ function processForm(event) {
                             input = document.createElement('input');
                             input.type = field['type'];
 
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.id = (labelName || field['placeholder'] || filed['type']) + '_' + contents['name'];
+                            input.required = field['required'] || false;
 
                             if (field['mask']) {
 
@@ -149,7 +187,7 @@ function processForm(event) {
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
-                                label.for = input.id;
+                                label.htmlFor = input.id;
                                 form.appendChild(label);
                             }
 
@@ -161,18 +199,23 @@ function processForm(event) {
                             input.type = field['type'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'];
+                            input.required = field['required'] || false;
 
                     }
 
                     form.appendChild(input);
-                    form.appendChild(document.createElement('hr'));
+                    form.onsubmit = validateForm;
+                    form.appendChild(document.createElement('br'));
                 });
 
                 if (contents['buttons']) {
-                    let button = document.createElement('button');
-                    button.innerHTML = contents['buttons'][0]['text'];
-                    form.appendChild(button);
+                    contents['buttons'].forEach(btn => {
+                        let button = document.createElement('button');
+                        button.innerHTML = btn['text'];
+                        form.appendChild(button);
+
+                        form.appendChild(document.createElement('span'));
+                    });
                 }
 
                 out.appendChild(form);

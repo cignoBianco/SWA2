@@ -6,3 +6,11 @@
 .hidden {
     display: none;
 }
+
+.passwords ~span::after {
+    content: 'Passwords!!!';
+}
+
+.emails ~span::after {
+    content: 'Emails!!!';
+}
