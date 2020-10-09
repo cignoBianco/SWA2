@@ -169,10 +169,11 @@ function processForm(event) {
                     form.appendChild(document.createElement('hr'));
                 });
 
-                let button = document.createElement('button');
-                console.log(contents['buttons'][0]);
-                button.innerHTML = contents['buttons'][0]['text'];
-                form.appendChild(button);
+                if (contents['buttons']) {
+                    let button = document.createElement('button');
+                    button.innerHTML = contents['buttons'][0]['text'];
+                    form.appendChild(button);
+                }
 
                 out.appendChild(form);
             }
