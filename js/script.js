@@ -50,21 +50,16 @@ function processForm(event) {
                           console.log('Oranges are $0.59 a pound.');
                           break;
                         case 'textarea': 
-                        case 'file':
-                        case 'date':
-                        case 'checkbox':
-                        case 'color':
-                            input.id = field['label'] + '_' + contents['name'];
+                            input.id = field['placeholder'] + '_' + contents['name'];
                             let label = document.createElement('label');
-                            label.for = field['label'] + '_' + contents['name'];
+                            label.for = 
                             input.innerHTML = field['label'];
-                            form.apprendChild(label);
                             break;
                         case 'text':
                         case 'email':
                         case 'passowrd':
-                            input.id = (field['placeholder'] || field['label']) + '_' + contents['name'];
-                            input.placeholder = field['placeholder'] || field['label'];
+                            input.id = field['placeholder'] + '_' + contents['name'];
+                            input.placeholder = field['placeholder'];
                             break;
                         default:
                           console.log(`Sorry, unvalid type.`);
