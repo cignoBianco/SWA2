@@ -74,7 +74,6 @@ function processForm(event) {
         
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
-                    console.log(field, field['label']);
                     let labelName = field['label'];
                     field = field['input'];
                     let input, label;
@@ -86,7 +85,7 @@ function processForm(event) {
                             input.accept = field['fieldtype'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
@@ -101,7 +100,7 @@ function processForm(event) {
                             input.type = 'file';
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
@@ -116,8 +115,9 @@ function processForm(event) {
                             input.type = field['type'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
-                            input.checked = field['checked'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
+                            input.checked = field['checked'] === "true" || false;
+                            console.log(!!field['checked'], field['checked']);
 
                             if (labelName) {
                                 label = document.createElement('label');
@@ -146,7 +146,7 @@ function processForm(event) {
                             input.list = colors.id;
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
 
                             if (labelName) {
                                 label = document.createElement('label');
@@ -160,7 +160,7 @@ function processForm(event) {
                             input = document.createElement('textarea'); 
                             
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
                             
                             if (labelName) {
                                 label = document.createElement('label');
@@ -178,7 +178,7 @@ function processForm(event) {
                             input.type = field['type'];
 
                             input.id = (labelName || field['placeholder'] || filed['type']) + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
 
                             if (field['mask']) {
 
@@ -195,11 +195,12 @@ function processForm(event) {
                             break;
                         default:
                           console.log(`Sorry, unvalid type.${field['type']}`);
+                          return;
                           input = document.createElement('input');
                             input.type = field['type'];
 
                             input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] || false;
+                            input.required = field['required'] === "true" || field['required'] === true || false;
 
                     }
 
