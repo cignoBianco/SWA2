@@ -41,31 +41,47 @@ function processForm(event) {
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
                     field = field['input'];
-                    let input = document.createElement('input');
-                    input.required = field['required'];
-                    input.type = field['type'];
+                    let input;
+                    switch (field['type']) {
+                        case 'file':
+                            break; 
+                        case 'color': 
+                            let colors = document.createElement('datalist');
+                            colors.id = 'colors' + contents['name'];
 
-                    switch (input.type) {
-                        case 'Oranges':
-                          console.log('Oranges are $0.59 a pound.');
-                          break;
+                            field['colors'].forEach(colour => {
+                                let option = document.createElement('option');
+                                option.value = colour;
+                                colors.appendChild(option);
+                            });
+
+                            input = document.createElement('input');
+                            input.type = field['type'];
+                            input.list = colors.id;
+                            break;
                         case 'textarea': 
-                            input.id = field['placeholder'] + '_' + contents['name'];
-                            let label = document.createElement('label');
-                            label.for = 
-                            input.innerHTML = field['label'];
+                            input = document.createElement('textarea'); 
                             break;
                         case 'text':
                         case 'email':
                         case 'passowrd':
-                            input.id = field['placeholder'] + '_' + contents['name'];
-                            input.placeholder = field['placeholder'];
+                            input = document.createElement('input');
+                            input.type = field['type'];
+                            input.placeholder = field['placeholder'] || '';
                             break;
                         default:
                           console.log(`Sorry, unvalid type.`);
                     }
 
+                    input.id = field['label'] + '_' + contents['name'];
+                    input.required = field['required'];
+
+                    let label = document.createElement('label');
+                    label.for = input.id;
+                    form.appendChild(label);
+            
                     form.appendChild(input);
+                    form.appendChild(document.createElement('<hr/>'));
                 });
 
                 let button = document.createElement('button');
