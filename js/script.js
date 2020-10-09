@@ -58,12 +58,13 @@ function processForm(event) {
                             let label = document.createElement('label');
                             label.for = field['label'] + '_' + contents['name'];
                             input.innerHTML = field['label'];
+                            form.apprendChild(label);
                             break;
                         case 'text':
                         case 'email':
                         case 'passowrd':
                             input.id = (field['placeholder'] || field['label']) + '_' + contents['name'];
-                            input.placeholder = field['placeholder'];
+                            input.placeholder = field['placeholder'] || field['label'];
                             break;
                         default:
                           console.log(`Sorry, unvalid type.`);
