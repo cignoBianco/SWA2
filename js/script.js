@@ -130,6 +130,7 @@ function processForm(event) {
                             break;
                         case 'checkbox':
                             input = document.createElement('input');
+                            input.classList.add('checkbox');
                             input.type = field['type'];
 
                             input.id = labelName + '_' + contents['name'];
@@ -162,6 +163,7 @@ function processForm(event) {
                             input = document.createElement('input');
                             input.type = field['type'];
                             input.list = colors.id;
+                            input.classList.add('color');
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'] === "true" || field['required'] === true || false;

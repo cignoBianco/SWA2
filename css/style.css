@@ -7,6 +7,22 @@
     display: block;
 }
 
+input.ckeckbox {
+    padding: 0;
+    width: min-content;
+    margin: 0 1em;
+    display: inline;
+    vertical-align: middle;
+}
+
+input.color {
+    padding: 0;
+    display: inline;
+    width: 2em;
+    height: 1.5em;
+    margin: 0 1em;
+}
+
 .passwords ~span::after {
     content: 'Passwords!!!';
 }
