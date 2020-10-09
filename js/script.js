@@ -40,6 +40,7 @@ function processForm(event) {
         
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
+                    console.log(field, field['label']);
                     let labelName = field['label'];
                     field = field['input'];
                     let input, label;
@@ -75,7 +76,7 @@ function processForm(event) {
 
                             break;
                         case 'checkbox':
-                            linput = document.createElement('input');
+                            input = document.createElement('input');
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
@@ -140,6 +141,10 @@ function processForm(event) {
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
+
+                            if (field['mask']) {
+
+                            }
 
                             if (labelName) {
                                 label = document.createElement('label');
