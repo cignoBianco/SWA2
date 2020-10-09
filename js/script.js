@@ -46,26 +46,32 @@ function processForm(event) {
                     switch (field['type']) {
                         case 'file':
                             input = document.createElement('input');
+                            input.type = 'file';
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
 
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
 
                             break;
                         case 'date':
                             input = document.createElement('input');
+                            input.type = 'file';
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
 
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
 
                             break;
                         case 'checkbox':
@@ -74,10 +80,12 @@ function processForm(event) {
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
 
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
                             /*
                             <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
                             <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
@@ -101,20 +109,26 @@ function processForm(event) {
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
 
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
+
                             break;
                         case 'textarea': 
                             input = document.createElement('textarea'); 
                             
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+                            
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
 
                             break;
                         case 'text':
@@ -126,10 +140,13 @@ function processForm(event) {
 
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'];
-                            label = document.createElement('label');
-                            label.innerHTML = labelName;
-                            label.for = input.id;
-                            form.appendChild(label);
+
+                            if (labelName) {
+                                label = document.createElement('label');
+                                label.innerHTML = labelName;
+                                label.for = input.id;
+                                form.appendChild(label);
+                            }
 
                             input.placeholder = field['placeholder'] || '';
                             break;
