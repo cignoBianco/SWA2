@@ -152,6 +152,12 @@ function processForm(event) {
                             break;
                         default:
                           console.log(`Sorry, unvalid type.${field['type']}`);
+                          input = document.createElement('input');
+                            input.type = field['type'];
+
+                            input.id = labelName + '_' + contents['name'];
+                            input.required = field['required'];
+
                     }
 
                     form.appendChild(input);
