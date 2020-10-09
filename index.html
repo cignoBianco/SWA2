@@ -19,8 +19,9 @@
         <div id="in">
             <form id="jsonForm">
                 <label for="jsonInput">Загрузить файл</label>
-                <input type="file" id="jsonInput" name="jsonInput" type="file" accept="*.json" />
+                <input type="file" id="jsonInput" name="jsonInput" type="file" accept="*.json"  multiple="multiple" />
                 <button type="submit">Сгенерировать форму</button>
+                <span id="errorMessage" class="hidden">Неверный формат файлов</span>
             </form>
         </div>
         <div id="out"></div>
