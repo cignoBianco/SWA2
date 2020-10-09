@@ -3,8 +3,8 @@
     margin: 0;
 }
 
-.hidden {
-    display: none;
+.block {
+    display: block;
 }
 
 .passwords ~span::after {

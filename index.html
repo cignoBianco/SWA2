@@ -5,28 +5,61 @@
     <title>JSON parser</title>
     <meta name="description" content="JSON parser парсер">
     <meta name="author" content="AnastasiaS">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="icon" href="css/images/favicon.png" type="image/png" sizes="16x16">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css?v=1.0">
+    <meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#563d7c">
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
  </head>
-<body>
-    <header></header>
-    <body>
-        <div>
-            <p>
-                У вас есть 5 файлов c json форматом. Ваша задача сделать динамический парсер, который принимает на вход json, а на выходе делает форму в зависимости от тех наборов полей формы, который там храниться. Оформление формы тоже идёт в учёт (не забываем про мобильную версию).
-            </p>
+<body  class="bg-light">
+    <div class="container">
+        <div class="py-5 text-center">
+          <h2>JSON парсер</h2>
+          <p class="lead"> У вас есть 5 файлов c json форматом. Ваша задача сделать динамический парсер, который принимает на вход json, а на выходе делает форму в зависимости от тех наборов полей формы, который там храниться. Оформление формы тоже идёт в учёт (не забываем про мобильную версию).</p>
         </div>
-        <div id="in">
-            <form id="jsonForm">
-                <label for="jsonInput">Загрузить файл</label>
-                <input type="file" id="jsonInput" name="jsonInput" type="file" accept="*.json"  multiple="multiple" />
-                <button type="submit">Сгенерировать форму</button>
-                <span id="errorMessage" class="hidden">Неверный формат файлов</span>
-            </form>
+
+        <div class="row">
+            <div class="col mb-5" id="jsonForm">
+                <h4 class="mb-3">Загрузить файл</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="mb-9">
+                        <input type="file"  class="form-control mb-3" id="jsonInput" class="form-control" name="jsonInput" type="file" accept="*.json"  multiple="multiple" />
+                        <button type="submit"  class="btn btn-primary btn-lg btn-block" >Сгенерировать форму</button>
+                        <div class="invalid-feedback" id="errorMessage">
+                            <span>Неверный формат файлов</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div id="out"></div>
+
+        <div class="row mt-5">
+            <div class="col" id="out">
+            </div>
+        </div>
+      
+        <footer class="my-5 text-muted text-center text-small">
+          <p class="mb-1">Smart World Academy</p>
+          <p class="mb-1">&copy; Cigno Bianco</p>
+        </footer>
+      </div>
+      <script src="js/script.js"></script>
     </body>
-    <footer></footer>
-    <script src="js/script.js"></script>
-</body>
 </html>

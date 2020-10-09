@@ -14,11 +14,11 @@ function validateInput(event) {
             if (file.type != 'text/javascript' && file.type != 'text/json') {
                 throw unvalidFile;
             }   
-            errorMessage.classList = 'hidden';
+            errorMessage.classList.remove('block');
             return button.disabled = false;
         });
     } catch(e) {
-        errorMessage.classList = '';
+        errorMessage.classList.add('block');
         button.disabled = true;
     }
 }
@@ -61,22 +61,40 @@ function processForm(event) {
     event.preventDefault();
     let files = form.querySelector('input').files; 
 
+    let h2 = document.createElement('h2');
+    h2.className = "mb-3";
+    h2.innerHTML = "Сгенерированные формы";
+
+    let wr = document.createElement('div');
+    wr.classList = "py-3 text-center";
+    wr.appendChild(h2);
+    output.appendChild(wr);
+
     Object.values(files).forEach(file => {
         if (file) {
             let fileReader = new FileReader();
             fileReader.onload = function(e) {
+
+                let wrapper = document.createElement('div');
+                wrapper.className = "mb-5 pb-5";
+
                 let contents = JSON.parse(e.target.result);
                 let form = document.createElement('form');
+                form.classList.add("row");
 
                 let title = document.createElement('h2');
                 title.innerHTML = contents['name'];
-                form.appendChild(title);
+                wrapper.appendChild(title);
         
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
                     let labelName = field['label'];
                     field = field['input'];
                     let input, label;
+
+                    let inputWrapper = document.createElement('div');
+                    inputWrapper.className = "mb-3 col-6";
+
                     switch (field['type']) {
                         case 'file':
                             input = document.createElement('input');
@@ -91,7 +109,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
 
                             break;
@@ -106,7 +124,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
 
                             break;
@@ -123,7 +141,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
                             /*
                             <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
@@ -152,7 +170,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
 
                             break;
@@ -166,7 +184,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
 
                             break;
@@ -188,7 +206,7 @@ function processForm(event) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
                                 label.htmlFor = input.id;
-                                form.appendChild(label);
+                                inputWrapper.appendChild(label);
                             }
 
                             input.placeholder = field['placeholder'] || '';
@@ -203,8 +221,10 @@ function processForm(event) {
                             input.required = field['required'] === "true" || field['required'] === true || false;
 
                     }
+                    input.classList.add('form-control');
+                    inputWrapper.append(input);
 
-                    form.appendChild(input);
+                    form.appendChild(inputWrapper);
                     form.onsubmit = validateForm;
                     form.appendChild(document.createElement('br'));
                 });
@@ -213,13 +233,15 @@ function processForm(event) {
                     contents['buttons'].forEach(btn => {
                         let button = document.createElement('button');
                         button.innerHTML = btn['text'];
+                        button.classList = 'btn btn-primary btn-lg btn-block mb-3';
                         form.appendChild(button);
 
                         form.appendChild(document.createElement('span'));
                     });
                 }
 
-                out.appendChild(form);
+                wrapper.appendChild(form);
+                output.appendChild(wrapper);
             }
             fileReader.readAsText(file);
         }
