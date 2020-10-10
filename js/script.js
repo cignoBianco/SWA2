@@ -105,7 +105,6 @@ function validateForm(event) {
 
 function removeForm(event) {
     let form = event.target.parentElement.parentElement;
-    console.log(form);
     form.parentElement.removeChild(form);
 }
 
@@ -207,13 +206,8 @@ function processForm(event) {
                                 label.htmlFor = input.id;
                                 inputWrapper.appendChild(label);
                             }
-                            /*
-                            <input type="checkbox" id="development" value="interest_development" name="user_interest"><label class="light" for="development">Development</label><br>
-                            <input type="checkbox" id="design" value="interest_design" name="user_interest"><label class="light" for="design">Design</label><br>
-                            <input type="checkbox" id="business" value="interest_business" name="user_interest"><label class="light" for="business">Business</label>
-                            */
                             break; 
-                        case 'color': 
+                        /*case 'color': 
                             let colors = document.createElement('datalist');
                             colors.id = 'colors' + contents['name'];
 
@@ -238,7 +232,7 @@ function processForm(event) {
                                 inputWrapper.appendChild(label);
                             }
 
-                            break;
+                            break;*/
                         case 'textarea': 
                             input = document.createElement('textarea'); 
                             
@@ -281,7 +275,32 @@ function processForm(event) {
                             break;
                         default:
                           console.log(`Sorry, unvalid type.${field['type']}`);
-                          return;
+
+                            Object.values(field).forEach(f => {
+                                if (Array.isArray(f)) {
+
+                                    input = document.createElement('select');
+                                    input.id = (labelName || field['placeholder'] || filed['type']) + '_' + contents['name'];
+        
+                                    if (labelName) {
+                                        label = document.createElement('label');
+                                        label.innerHTML = labelName;
+                                        label.htmlFor = input.id;
+                                        inputWrapper.appendChild(label);
+                                    }
+
+                                    f.forEach(item => {
+                                        let option = document.createElement('option');
+                                        option.innerHTML = item;
+                                        input.appendChild(option);
+                                    })
+
+                                    return input;
+                                }
+                            })
+                                inputWrapper.append(input);
+                                break;
+                          return input;
                           input = document.createElement('input');
                             input.type = field['type'];
 
@@ -296,6 +315,22 @@ function processForm(event) {
                     form.onsubmit = validateForm;
                     form.appendChild(document.createElement('br'));
                 });
+
+                if(contents['references']) {
+                    return; //idk what is it
+                    contents['references'].forEach(ref => {
+                        if(ref['input']) delete ref['input'];
+                        if (Object.keys(ref).length === 0) return;
+
+                        console.log(ref);
+
+                        for (const [key, value] of Object.entries(ref)) {  
+                            let input = document.createElement('input');
+                            input.classList = 'checkbox reference';
+                            //input .
+                        }
+                    });
+                }
 
                 if (contents['buttons']) {
                     contents['buttons'].forEach(btn => {
