@@ -23,10 +23,10 @@ input.color {
     margin: 0 1em;
 }
 
-.passwords ~span::after {
+.passwords ~span::after, .passwords::after {
     content: 'Passwords!!!';
 }
 
-.emails ~span::after {
+.emails ~span::after, .emails::after {
     content: 'Emails!!!';
 }

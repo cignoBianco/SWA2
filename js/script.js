@@ -37,6 +37,7 @@ function validateForm(event) {
             validated = true;
         } else {
             passwords[0].classList.add('passwords');
+            passwords[0].appendChild(document.createElement('span'));
             validated = +validated * 0;
         }
     }
@@ -47,7 +48,8 @@ function validateForm(event) {
             emails[0].classList.remove('emails');
             validated = +validated * 1;
         } else {
-            passwords[0].classList.add('emails');
+            emails[0].classList.add('emails');
+            emails[0].appendChild(document.createElement('span'));
             validated = +validated * 0;
         } 
     }
