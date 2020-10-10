@@ -74,6 +74,12 @@ function validateForm(event) {
     }
 }
 
+function removeForm(event) {
+    let form = event.target.parentElement.parentElement;
+    console.log(form);
+    form.parentElement.removeChild(form);
+}
+
 function processForm(event) {
     event.preventDefault();
     let files = form.querySelector('input').files; 
@@ -93,15 +99,26 @@ function processForm(event) {
             fileReader.onload = function(e) {
 
                 let wrapper = document.createElement('div');
-                wrapper.className = "mb-5 pb-5";
+                wrapper.className = "mb-5 pb-5 formDiv";
 
                 let contents = JSON.parse(e.target.result);
                 let form = document.createElement('form');
                 form.classList.add("row");
 
+                let formHeader = document.createElement('div');
+                formHeader.className = 'fl-jc';
+
                 let title = document.createElement('h2');
                 title.innerHTML = contents['name'];
-                wrapper.appendChild(title);
+                formHeader.appendChild(title);
+
+                let removeBtn = document.createElement('div');
+                removeBtn.className = 'removeBtn';
+                removeBtn.innerHTML = 'x';
+                removeBtn.onclick = removeForm;
+                formHeader.appendChild(removeBtn);
+
+                wrapper.appendChild(formHeader);
         
                 //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {

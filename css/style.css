@@ -23,6 +23,13 @@ input.color {
     margin: 0 1em;
 }
 
+.fl-jc {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .passwords ~span::after, .passwords::after {
     content: 'Passwords!!!';
 }
