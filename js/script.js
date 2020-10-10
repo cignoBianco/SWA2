@@ -315,9 +315,9 @@ function processForm(event) {
                     form.onsubmit = validateForm;
                     form.appendChild(document.createElement('br'));
                 });
-
+/*
                 if(contents['references']) {
-                    return; //idk what is it
+                    continue; //idk what is it
                     contents['references'].forEach(ref => {
                         if(ref['input']) delete ref['input'];
                         if (Object.keys(ref).length === 0) return;
@@ -330,7 +330,7 @@ function processForm(event) {
                             //input .
                         }
                     });
-                }
+                }*/
 
                 if (contents['buttons']) {
                     contents['buttons'].forEach(btn => {
