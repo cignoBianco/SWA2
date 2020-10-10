@@ -21,27 +21,22 @@ function generateMask(value, mask) {
     let lengths = [];
 	symboles.forEach(s => {lengths.push(s.length)});
 
-    //console.log(insertedValue, symbols, separators, symboles, lengths);
-    console.log('isNumeric(value):', isNumeric(symbols), symbols);
     return (isNumeric(symbols)) ? merge(separators, insertedValue, lengths) : merge(separators, insertedValue, lengths, 1);
 }
 
-function isNumeric(str){
+function isNumeric(str) {
     return str[0] < 10;
 }
 
 function merge(separators, insertedValue, lengths, separatorStarts = 0) {
     let res = [];
     if (separatorStarts) res.push(separators.shift());
-    console.log('res before loop',res);
     for (let i = 0; i <= separators.length && insertedValue[0]; ++i) {
         let len = lengths[i];
         res.push(insertedValue.substr(0,len));
         insertedValue = insertedValue.substr(len++,);
         res.push(separators[i]);
-        console.log('res2', res);
-        console.log('i', i, 'separators.length', separators.length);
-  }
+    }
     return res.join('');
 }
 
@@ -61,7 +56,18 @@ function validateInput(event) {
     }
 }
 
-const allEqual = array => array.every( item => item.value === array[0].value )
+const allEqual = array => array.every( item => item.value === array[0].value );
+
+function generateErrorMessage(text, form) {
+    if (form.querySelector('span.err')) {
+        form.querySelector('span.err').innerHTML = text;
+    } else {
+        let span = document.createElement('span');
+        span.className = 'err';
+        span.innerHTML = text;
+        form.appendChild(span);
+    }
+}
 
 function validateForm(event) {
     event.preventDefault();
@@ -75,17 +81,7 @@ function validateForm(event) {
             validated = true;
         } else {
             passwords[0].classList.add('passwords');
-
-            // TODO: recursice function with text param
-            if (form.querySelector('span.err')) {
-                form.querySelector('span.err').innerHTML = 'Пароли не совпадают';
-            } else {
-                let span = document.createElement('span');
-                span.className = 'err';
-                span.innerHTML = 'Пароли не совпадают';
-                form.appendChild(span);
-            }
-            
+            generateErrorMessage('Пароли не совпадают', form);
             validated = +validated * 0;
         }
     }
@@ -97,12 +93,7 @@ function validateForm(event) {
             validated = +validated * 1;
         } else {
             emails[0].classList.add('emails');
-
-            let span = document.createElement('span');
-            span.className = 'err';
-            span.innerHTML = 'Адреса не совпадают';
-            form.appendChild(span);
-            
+            generateErrorMessage('Почта не совпадает', form);
             validated = +validated * 0;
         } 
     }
