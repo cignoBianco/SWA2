@@ -260,7 +260,7 @@ function processForm(event) {
 
                             if (field['mask']) {
                                 input.type = 'text';
-                                input.setAttribute('data-mask')=field['mask'];
+                                input.setAttribute('data-mask', field['mask']);
                                 input.onkeypress="applyMask(this);";
                                 input.onblur="applyMask(this);";
                             }
