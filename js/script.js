@@ -7,6 +7,30 @@ const output = document.querySelector('#out');
 form.addEventListener('change', validateInput);
 form.addEventListener('submit', processForm);
 
+function applyMask(input) {
+	return input.value = generateMask(input.value, input.getAttribute('data-mask'));
+}
+
+function generateMask(value, mask) {
+    let insertedValue = (value) ? value.replace(/\D+()/g, "") : '';
+    let symbols = mask.replace(/\w/g, "0"); //+0 (000) 000 00-0
+    let separators = symbols.match(/\D+/g);
+
+    // Get length os symboles
+	let symboles =  symbols.match(/\w+/g); // ["0", "000", "000", "00", "0"]	
+    let lengths = [];
+	symboles.forEach(s => {lengths.push(s.length)});
+
+	let res = [];
+	for (let i = 0; i < separators.length && insertedValue[0]; ++i) {
+  	    res.push(separators[i]);
+        let len = lengths[i];
+ 		res.push(insertedValue.substr(0,len));
+  	    insertedValue = insertedValue.substr(len++,);
+    }
+    return res.join('');
+}
+
 function validateInput(event) {
     let files = form.querySelector('input').files;
     try {
@@ -235,7 +259,10 @@ function processForm(event) {
                             input.required = field['required'] === "true" || field['required'] === true || false;
 
                             if (field['mask']) {
-
+                                input.type = 'text';
+                                input.setAttribute('data-mask')=field['mask'];
+                                input.onkeypress="applyMask(this);";
+                                input.onblur="applyMask(this);";
                             }
 
                             if (labelName) {
