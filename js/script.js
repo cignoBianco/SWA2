@@ -21,22 +21,26 @@ function generateMask(value, mask) {
     let lengths = [];
 	symboles.forEach(s => {lengths.push(s.length)});
 
-    return (isNumeric(value)) ? merge(separators, insertedValue, lengths, 0) : merge(separators, insertedValue, lengths, 1);
+    //console.log(insertedValue, symbols, separators, symboles, lengths);
+    console.log('isNumeric(value):', isNumeric(symbols), symbols);
+    return (isNumeric(symbols)) ? merge(separators, insertedValue, lengths) : merge(separators, insertedValue, lengths, 1);
 }
 
 function isNumeric(str){
-    return /^\d+$/.test(str);
+    return str[0] < 10;
 }
 
-function merge(separators, insertedValue, lengths, separatorStarts) {
+function merge(separators, insertedValue, lengths, separatorStarts = 0) {
     let res = [];
     if (separatorStarts) res.push(separators.shift());
-    for (let i = 0; i < separators.length && insertedValue[0]; ++i) {
-        //res.push(separators[i]);
-      let len = lengths[i];
-       res.push(insertedValue.substr(0,len));
+    console.log('res before loop',res);
+    for (let i = 0; i <= separators.length && insertedValue[0]; ++i) {
+        let len = lengths[i];
+        res.push(insertedValue.substr(0,len));
         insertedValue = insertedValue.substr(len++,);
         res.push(separators[i]);
+        console.log('res2', res);
+        console.log('i', i, 'separators.length', separators.length);
   }
     return res.join('');
 }
