@@ -21,13 +21,23 @@ function generateMask(value, mask) {
     let lengths = [];
 	symboles.forEach(s => {lengths.push(s.length)});
 
-	let res = [];
-	for (let i = 0; i < separators.length && insertedValue[0]; ++i) {
-  	    res.push(separators[i]);
-        let len = lengths[i];
- 		res.push(insertedValue.substr(0,len));
-  	    insertedValue = insertedValue.substr(len++,);
-    }
+    return (isNumeric(value)) ? merge(separators, insertedValue, lengths, 0) : merge(separators, insertedValue, lengths, 1);
+}
+
+function isNumeric(str){
+    return /^\d+$/.test(str);
+}
+
+function merge(separators, insertedValue, lengths, separatorStarts) {
+    let res = [];
+    if (separatorStarts) res.push(separators.shift());
+    for (let i = 0; i < separators.length && insertedValue[0]; ++i) {
+        //res.push(separators[i]);
+      let len = lengths[i];
+       res.push(insertedValue.substr(0,len));
+        insertedValue = insertedValue.substr(len++,);
+        res.push(separators[i]);
+  }
     return res.join('');
 }
 
@@ -261,8 +271,8 @@ function processForm(event) {
                             if (field['mask']) {
                                 input.type = 'text';
                                 input.setAttribute('data-mask', field['mask']);
-                                input.onkeypress="applyMask(this);";
-                                input.onblur="applyMask(this);";
+                                input.onkeypress=function() {applyMask(this)};
+                                input.onblur=function() {applyMask(this)};
                             }
 
                             if (labelName) {
