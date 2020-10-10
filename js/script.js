@@ -37,10 +37,17 @@ function validateForm(event) {
             validated = true;
         } else {
             passwords[0].classList.add('passwords');
-            let span = document.createElement('span');
-            span.innerHTML = 'Пароли не совпадают';
-            form.appendChild(span);
-            console.log(span);
+
+            // TODO: recursice function with text param
+            if (form.querySelector('span.err')) {
+                form.querySelector('span.err').innerHTML = 'Пароли не совпадают';
+            } else {
+                let span = document.createElement('span');
+                span.className = 'err';
+                span.innerHTML = 'Пароли не совпадают';
+                form.appendChild(span);
+            }
+            
             validated = +validated * 0;
         }
     }
@@ -52,10 +59,12 @@ function validateForm(event) {
             validated = +validated * 1;
         } else {
             emails[0].classList.add('emails');
+
             let span = document.createElement('span');
+            span.className = 'err';
             span.innerHTML = 'Адреса не совпадают';
             form.appendChild(span);
-            console.log(span);
+            
             validated = +validated * 0;
         } 
     }
