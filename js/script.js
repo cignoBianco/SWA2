@@ -16,7 +16,6 @@ function generateMask(value, mask) {
     let symbols = mask.replace(/\w/g, "0"); //+0 (000) 000 00-0
     let separators = symbols.match(/\D+/g);
 
-    // Get length os symboles
 	let symboles =  symbols.match(/\w+/g); // ["0", "000", "000", "00", "0"]	
     let lengths = [];
 	symboles.forEach(s => {lengths.push(s.length)});
@@ -106,6 +105,12 @@ function validateForm(event) {
 function removeForm(event) {
     let form = event.target.parentElement.parentElement;
     form.parentElement.removeChild(form);
+    
+    let formDivs = document.querySelectorAll('.formDiv');
+    if (formDivs.length === 0) {
+        let title = document.querySelector('.generatedLabel');
+        title.parentNode.removeChild(title);
+    }
 }
 
 function processForm(event) {
@@ -113,7 +118,7 @@ function processForm(event) {
     let files = form.querySelector('input').files; 
 
     let h2 = document.createElement('h2');
-    h2.className = "mb-3";
+    h2.classList = "mb-3 generatedLabel";
     h2.innerHTML = "Сгенерированные формы";
 
     let wr = document.createElement('div');
@@ -198,8 +203,7 @@ function processForm(event) {
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'] === "true" || field['required'] === true || false;
                             input.checked = field['checked'] === "true" || false;
-                            console.log(!!field['checked'], field['checked']);
-
+                           
                             if (labelName) {
                                 label = document.createElement('label');
                                 label.innerHTML = labelName;
@@ -260,6 +264,8 @@ function processForm(event) {
                             if (field['mask']) {
                                 input.type = 'text';
                                 input.setAttribute('data-mask', field['mask']);
+                               
+                                input.maxLength = field['mask'].length;
                                 input.onkeypress=function() {applyMask(this)};
                                 input.onblur=function() {applyMask(this)};
                             }
@@ -315,22 +321,41 @@ function processForm(event) {
                     form.onsubmit = validateForm;
                     form.appendChild(document.createElement('br'));
                 });
-/*
+
                 if(contents['references']) {
-                    continue; //idk what is it
                     contents['references'].forEach(ref => {
-                        if(ref['input']) delete ref['input'];
+                    
                         if (Object.keys(ref).length === 0) return;
 
-                        console.log(ref);
-
-                        for (const [key, value] of Object.entries(ref)) {  
-                            let input = document.createElement('input');
-                            input.classList = 'checkbox reference';
-                            //input .
+                        let create = (ref, form) => {
+                            let input = document.createElement('a');
+                            input.classList = 'reference center';
+                            input.href = ref['ref'];
+                            input.innerHTML = ref['text'];
+                            Object.keys(ref).forEach(i => {
+                                if (i != 'ref' && i != 'text') {
+                                    let p = document.createElement('p')
+                                    p.innerHTML = ref[i]
+                                    form.appendChild(p)
+                                }
+                            })
+                            form.appendChild(input);
+                            form.appendChild(document.createElement('span'));
                         }
+ 
+                        if (ref['ref'] && ref['text']) {
+                            create(ref, form);
+                        } else {
+                            console.log(ref)
+                            Object.values(ref).forEach(r => {
+                                if (r['ref'] && ref['text']) create(r, form)
+                            })
+                        }
+                        
+                            
+                        
                     });
-                }*/
+                }
 
                 if (contents['buttons']) {
                     contents['buttons'].forEach(btn => {
@@ -342,6 +367,8 @@ function processForm(event) {
                         form.appendChild(document.createElement('span'));
                     });
                 }
+
+                
 
                 wrapper.appendChild(form);
                 output.appendChild(wrapper);
