@@ -153,166 +153,82 @@ function processForm(event) {
 
                 wrapper.appendChild(formHeader);
         
-                //fields // input -> placeholder: "Enter full name", required: true, type: "text"
                 contents['fields'].forEach(field => {
                     let labelName = field['label'];
                     field = field['input'];
                     let input, label;
-
                     let inputWrapper = document.createElement('div');
                     inputWrapper.className = "mb-3 col-6";
 
+                    let createLabel = (label, labelName, inputId, inputWrapper) => {
+                        label = document.createElement('label');
+                        label.innerHTML = labelName;
+                        label.htmlFor = inputId;
+                        inputWrapper.appendChild(label);
+                    }
+
+                    let createInput = (input, type, labelName, contentsName, field) => {
+                        input = document.createElement('input');
+                        input.type = type
+                        input.id = labelName + '_' + contents['name'];
+                        input.required = field['required'] === "true" || field['required'] === true || false;
+                        if (labelName) createLabel(label, labelName, input.id, inputWrapper)
+                        return input
+                    } 
+
                     switch (field['type']) {
                         case 'file':
-                            input = document.createElement('input');
-                            input.type = 'file';
+                            input = createInput(input, 'file', labelName, contents['name'], field);
                             input.multiple = field['multiple'];
                             input.accept = field['fieldtype'];
-
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
-
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
-
                             break;
                         case 'date':
-                            input = document.createElement('input');
-                            input.type = 'file';
-
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
-
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
-
+                            input = createInput(input, 'date', labelName, contents['name'], field);
                             break;
                         case 'checkbox':
-                            input = document.createElement('input');
+                            input = createInput(input, 'checkbox', labelName, contents['name'], field);
                             input.classList.add('checkbox');
-                            input.type = field['type'];
-
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
                             input.checked = field['checked'] === "true" || false;
-                           
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
                             break; 
-                        /*case 'color': 
-                            let colors = document.createElement('datalist');
-                            colors.id = 'colors' + contents['name'];
-
-                            field['colors'].forEach(colour => {
-                                let option = document.createElement('option');
-                                option.value = colour;
-                                colors.appendChild(option);
-                            });
-
-                            input = document.createElement('input');
-                            input.type = field['type'];
-                            input.list = colors.id;
-                            input.classList.add('color');
-
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
-
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
-
-                            break;*/
                         case 'textarea': 
                             input = document.createElement('textarea'); 
-                            
                             input.id = labelName + '_' + contents['name'];
                             input.required = field['required'] === "true" || field['required'] === true || false;
-                            
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
-
                             break;
                         case 'text':
                         case 'email':
                         case 'password':
                         case 'number':
-                            input = document.createElement('input');
-                            input.type = field['type'];
-
-                            input.id = (labelName || field['placeholder'] || filed['type']) + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
-
+                            input = createInput(input, field['type'], labelName, contents['name'], field);
                             if (field['mask']) {
                                 input.type = 'text';
                                 input.setAttribute('data-mask', field['mask']);
-                               
                                 input.maxLength = field['mask'].length;
                                 input.onkeypress=function() {applyMask(this)};
                                 input.onblur=function() {applyMask(this)};
                             }
-
-                            if (labelName) {
-                                label = document.createElement('label');
-                                label.innerHTML = labelName;
-                                label.htmlFor = input.id;
-                                inputWrapper.appendChild(label);
-                            }
-
                             input.placeholder = field['placeholder'] || '';
                             break;
                         default:
-                          console.log(`Sorry, unvalid type.${field['type']}`);
+                            console.log(`Sorry, unvalid type.${field['type']}`);
 
                             Object.values(field).forEach(f => {
                                 if (Array.isArray(f)) {
-
                                     input = document.createElement('select');
                                     input.id = (labelName || field['placeholder'] || filed['type']) + '_' + contents['name'];
         
-                                    if (labelName) {
-                                        label = document.createElement('label');
-                                        label.innerHTML = labelName;
-                                        label.htmlFor = input.id;
-                                        inputWrapper.appendChild(label);
-                                    }
+                                    if (labelName) createLabel(label, labelName, input.id, inputWrapper)
 
                                     f.forEach(item => {
                                         let option = document.createElement('option');
                                         option.innerHTML = item;
                                         input.appendChild(option);
                                     })
-
                                     return input;
                                 }
                             })
-                                inputWrapper.append(input);
-                                break;
-                          return input;
-                          input = document.createElement('input');
-                            input.type = field['type'];
-
-                            input.id = labelName + '_' + contents['name'];
-                            input.required = field['required'] === "true" || field['required'] === true || false;
-
+                            inputWrapper.append(input);
+                            break;
                     }
                     input.classList.add('form-control');
                     inputWrapper.append(input);
@@ -346,14 +262,10 @@ function processForm(event) {
                         if (ref['ref'] && ref['text']) {
                             create(ref, form);
                         } else {
-                            console.log(ref)
                             Object.values(ref).forEach(r => {
                                 if (r['ref'] && ref['text']) create(r, form)
                             })
                         }
-                        
-                            
-                        
                     });
                 }
 
@@ -367,8 +279,6 @@ function processForm(event) {
                         form.appendChild(document.createElement('span'));
                     });
                 }
-
-                
 
                 wrapper.appendChild(form);
                 output.appendChild(wrapper);
